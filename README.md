@@ -1,2 +1,5 @@
-# Jetson-Afterburners
+# Jetson Afterburners
+___________________________________________________________________________________________
+Work in progress
+___________________________________________________________________________________________
 Initialize your Nvidia Jetson module with all the prerequisites and set up system environments. 

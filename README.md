@@ -1,5 +1,5 @@
 # Jetson Afterburners
 ___________________________________________________________________________________________
-Work in progress
-___________________________________________________________________________________________
-Initialize your Nvidia Jetson module with all the prerequisites and set up system environments. 
+A script that automatically configures your NVIDIA Jetson ready to roll with your Machine Learning projects. Commonly also fixes bugs related to Tensorflow GPU installation and VNC Remote connection.
+
+Credits to Jetsonhacks.com for Jetson Stats and vitals script.

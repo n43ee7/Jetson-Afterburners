@@ -23,12 +23,45 @@ for line in proc.stdout:
 
 proc.communicate()
 
-print(" NVIDIA Jetson " + os.environ["JETSON_BOARD"].strip())  # Jetson Model
-print(' L4T ' + os.environ['JETSON_L4T'].strip() + ' [ JetPack ' + os.environ[
-    'JETSON_JETPACK'].strip() + ' ]')  # L4T Version
 
-# Ubuntu version
-if os.path.exists('/etc/os-release'):
+print("""\
+
+       ____________
+   ___/ ___________\ 
+  / ___/            \___
+ / /              (____ \ 
+| |   NVIDIA JETSON    \ \ 
+| |                     ) )
+ \ \__ AFTERBURNERS  __/ /           __
+  \__ \_____________/ __/        ___/  \ 
+     \_______________/       ___/       \_
+                \  \     ___/             \ 
+                 \  \___/   __/            \ 
+                 ___/       \__/\           \ 
+             ___/               _\      ___/|
+        ____/                  /    ___/ _  ( 
+       /       TEGRA            ___/ _   \\ | 
+       |\  __               ___/ _   \\  _H_/ 
+       | \/  \          ___/ _   \\  _H_/ Y 
+       |`|  _/ cu   ___/ _   \\  _H_/ Y   !  
+        \|_|\   ___/ _   \\  _H_/ Y   !   ! 
+        !  | \_/ _   \\  _H_/ Y   !   ! 
+        !  \` |  \\  _H_/ Y   !   ! 
+            \`|  _H_/ Y   !   ! 
+             \|_/ Y   !   ! 
+                  !   ! 
+                  ! 
+                    """)
+
+print("========================================================================")
+print("                             SYSTEM DETAILS                             ")
+print("========================================================================")
+print(" NVIDIA Board Name: " + os.environ["JETSON_BOARD"].strip())                                                      # Jetson Model
+print(' L4T Version: ' + os.environ['JETSON_L4T'].strip() + ' [ JetPack ' + os.environ['JETSON_JETPACK'].strip() + ' ]')# L4T Version
+print("========================================================================")
+print (" UBUNTU version: ")
+
+if os.path.exists('/etc/os-release'):                                                                                   # Ubuntu version
     with open('/etc/os-release', 'r') as ubuntuVersionFile:
         ubuntuVersionFileText = ubuntuVersionFile.read()
     for line in ubuntuVersionFileText.splitlines():
@@ -36,20 +69,22 @@ if os.path.exists('/etc/os-release'):
             ubuntuRelease = line.split('"')[1]
             print(' ' + ubuntuRelease)
 else:
-    print(terminalColors.FAIL + 'Error: Unable to find Ubuntu Version' + terminalColors.ENDC)
-    print('Reason: Unable to find file /etc/os-release')
+    print(terminalColors.FAIL + 'Error Enountered while finding Ubuntu Version' + terminalColors.ENDC)
+    print('Directory /etc/os-release has not been detected. Try running with SUDO')
+print("========================================================================")
 
-# Kernel Release
-
-if os.path.exists('/proc/version'):
+if os.path.exists('/proc/version'):                                                                                     # Kernel Release
     with open('/proc/version', 'r') as versionFile:
         versionFileText = versionFile.read()
     kernelReleaseArray = versionFileText.split(' ')
-    print(' Kernel Version: ' + kernelReleaseArray[2])
+    print('System Kernel Version: ' + kernelReleaseArray[2])
 else:
-    print(terminalColors.FAIL + 'Error: Unable to find Linux kernel version' + terminalColors.ENDC)
-    print('Reason: Unable to find file /proc/version')
+    print(terminalColors.FAIL + 'Error encountered while finding out kernel version' + terminalColors.ENDC)
+    print('Directory /proc/version has not been detected. Try running with SUDO')
 
-print(' CUDA ' + os.environ['JETSON_CUDA'].strip())
-
-time.sleep(10)
+print("========================================================================")
+print(' CUDA Version: ' + os.environ['JETSON_CUDA'].strip())
+print("========================================================================")
+input(""" \
+Press ENTER key to continue system Initialization...
+      """)

@@ -1,6 +1,6 @@
 # Jetson Afterburners
 ___________________________________________________________________________________________
-A script that automatically configures your NVIDIA Jetson ready to roll with your Machine Learning projects. Commonly also fixes bugs related to Tensorflow GPU installation and VNC Remote connection.
+A script that automatically configures your NVIDIA Jetson ready to roll with your Machine Learning projects.
 _____________________________________________________________________________________________
 ## Installation
 Clone the repository
@@ -14,4 +14,4 @@ ________________________________________________________________________________
 Note: 
 This script is tested on NVIDIA Jetson Nano and is probable to run similarly on other Jetson modules.
 
-Credits to Jetsonhacks.com for Jetson Stats and vitals script.
+Credits to __Jetsonhacks.com__ for Jetson Stats and vitals script.

@@ -1,5 +1,155 @@
 #!/bin/bash
-#
-# First Arg is System name
-#
+# n43ee7
 
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get dist-upgrade
+
+sudo apt-get install git cmake
+sudo apt-get install libatlas-base-dev gfortran
+sudo apt-get install libhdf5-serial-dev hdf5-tools
+sudo apt-get install python3-dev
+sudo apt-get install nano locate htop
+sudo apt-get install libfreetype6-dev python3-setuptools
+sudo apt-get install protobuf-compiler libprotobuf-dev openssl
+sudo apt-get install libssl-dev libcurl4-openssl-dev
+sudo apt-get install cython3
+
+sudo apt-get install libxml2-dev libxslt1-dev
+
+# CMAKE Installation
+wget http://www.cmake.org/files/v3.13/cmake-3.13.0.tar.gz
+tar xpvf cmake-3.13.0.tar.gz cmake-3.13.0/
+cd cmake-3.13.0/
+./bootstrap --system-curl
+make -j4
+echo 'export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH' >> ~/.bashrc
+source ~/.bashrc
+echo '[!] Do not Delete the CMake Folder located at the the home directory'
+
+
+# Installing OpenCV dependencies and install
+sudo apt-get install build-essential pkg-config
+sudo apt-get install libtbb2 libtbb-dev
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libxvidcore-dev libavresample-dev
+sudo apt-get install libtiff-dev libjpeg-dev libpng-dev
+sudo apt-get install python-tk libgtk-3-dev
+sudo apt-get install libcanberra-gtk-module libcanberra-gtk3-module
+
+sudo apt-get install libv4l-dev libdc1394-22-dev
+clear
+echo ===================================================================================================================
+echo                                              [!] Installing OpenCV.
+echo ===================================================================================================================
+sudo ./OpenCVinstall.sh
+
+# pip setup
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3 get-pip.py
+rm get-pip.py
+sudo pip install virtualenv virtualenvwrapper
+sudo pip install
+
+# Virtual Environment Setup
+echo '# virtualenv and virtualenvwrapper' >> ~/.bashrc
+echo 'export WORKON_HOME=$HOME/.virtualenvs' >> ~/.bashrc
+echo 'export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3' >> ~/.bashrc
+echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
+source ~/.bashrc
+clear
+
+while:
+do
+echo ===================================================================================================================
+echo                            [!] Please configure your Python3 Virtual environments.
+echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
+echo ===================================================================================================================
+echo .>>Enter Environment name:
+read varname
+mkvirtualenv $varname -p python3
+done
+
+clear
+echo ===================================================================================================================
+echo                            [!] Python3 Virtual environments have been configured.
+echo ===================================================================================================================
+echo .>> use 'mkvirtualenv' to Create a Python virtual environment
+echo .>> use 'lsvirtualenv' to List virtual environments installed on your system
+echo .>> use 'rmvirtualenv' to Remove a virtual environment
+echo .>> use 'workon' to Activate a Python virtual environment
+echo ===================================================================================================================
+sleep 20
+clear
+echo ===================================================================================================================
+echo                      [!] Enter the name of the virtual environment to work on for primary install.
+echo ===================================================================================================================
+echo .>> Note: This script will not maintain other environments.
+read envname
+workon $envname
+
+# Install the Protobuf Compiler
+wget https://raw.githubusercontent.com/jkjung-avt/jetson_nano/master/install_protobuf-3.6.1.sh
+sudo chmod +x install_protobuf-3.6.1.sh
+./install_protobuf-3.6.1.sh
+
+workon $envname
+cd ~
+cp -r ~/src/protobuf-3.6.1/python/ .
+cd python
+python setup.py install --cpp_implementation
+clear
+echo ===================================================================================================================
+echo                     [!] Commencing Installation of Deep Learning Libraries and packages.
+echo ===================================================================================================================
+sleep 5
+sudo pip install numpy cython
+
+wget https://github.com/scipy/scipy/releases/download/v1.3.3/scipy-1.3.3.tar.gz
+tar -xzvf scipy-1.3.3.tar.gz scipy-1.3.3
+cd scipy-1.3.3/
+python setup.py install
+
+sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+sudo pip install -U pip testresources setuptools
+sudo pip3 install -U future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
+pip install keras
+
+pip install matplotlib scikit-learn
+pip install pillow imutils scikit-image
+pip install dlib
+pip install flask jupyter
+
+
+instal_vscode()
+{
+# Install the rep keys and setup
+wget -O script.deb.sh https://packagecloud.io/install/repositories/headmelted/codebuilds/script.deb.sh
+# sudo chmod +x script.deb.sh
+sudo bash script.deb.sh
+# Run the installation script
+wget -O vscodeInstall.sh https://code.headmelted.com/installers/apt.sh
+# sudo chmod +x vscodeInstall.sh
+sudo bash vscodeInstall.sh
+# . <( wget -O - https://code.headmelted.com/installers/apt.sh )
+}
+
+instal_arduino()
+{
+INSTALL_DIR=${HOME}
+# Direct Jetson support starts at 1.8.10
+ARDUINO_VERSION=1.8.10
+
+# Only download if newer version exists
+wget -N https://downloads.arduino.cc/arduino-$ARDUINO_VERSION-linuxaarch64.tar.xz
+tar -C $INSTALL_DIR/ -xvf arduino-${ARDUINO_VERSION}-linuxaarch64.tar.xz
+cd $INSTALL_DIR/arduino-${ARDUINO_VERSION}
+sudo ./install.sh
+./arduino-linux-setup.sh "$USER"
+echo "You can delete the tar file if desired: arduino-"${ARDUINO_VERSION}"-linuxaarch64.tar.xz"
+}
+
+vnc_resolve()
+{
+
+}

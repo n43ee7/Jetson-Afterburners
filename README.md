@@ -14,4 +14,4 @@ ________________________________________________________________________________
 Note: 
 This script is tested on NVIDIA Jetson Nano and is probable to run similarly on other Jetson modules.
 
-Credits to __Jetsonhacks.com__ for Jetson Stats and vitals script.
+Credits to __Jetsonhacks.com__ for majority of configuration scripts.

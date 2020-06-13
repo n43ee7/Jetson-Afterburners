@@ -7,11 +7,12 @@ Clone the repository
 ``` git clone https://github.com/n43ee7/Jetson-Afterburners.git ```
 
 Run the script for the first boot
-``` python jetsoninfo ```
+``` python3 Afterburner.py ```
 
-The current release of this script does not have a menu however I plan to release one quite soon thus further instructions will be updated soon. :)
+Use the interactive menu to navigate throught what you need to initialize.
+
 _______________________________________________________________________________________________
 Note: 
-This script is tested on NVIDIA Jetson Nano and is probable to run similarly on other Jetson modules.
+This script is solely on and for NVIDIA Jetson Nano with lower probability of proper functionality on other Jetson Boards. Please review each induvidual scripts before executing them if you are on any other kernel or a new board.
 
 Credits to __Jetsonhacks.com__ for majority of configuration scripts.

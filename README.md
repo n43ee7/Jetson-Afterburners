@@ -20,4 +20,4 @@ This script is solely designed on and for __NVIDIA Jetson Nano Developer kit__. 
 
 _Please review each induvidual script in this repository before executing them if you are on any other kernel or a new board._
 
-Credits to __Jetsonhacks.com__ for majority of configuration scripts.
+Credits to __Jetsonhacks.com__ for some of the configuration scripts.

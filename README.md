@@ -2,7 +2,8 @@
 ___________________________________________________________________________________________
 Automatically configure your __NVIDIA Jetson NANO__ with all your Machine Learning libraries, Python Virtual Enviorments, and system glitch fixes.
  
-  
+Currently functional on versions <= [JetPack 4.2.2](https://developer.nvidia.com/embedded/jetpack)   
+
 _____________________________________________________________________________________________
 ## Installation
 Clone the repository

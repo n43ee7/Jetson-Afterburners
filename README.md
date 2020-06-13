@@ -1,6 +1,8 @@
 # Jetson Afterburners
 ___________________________________________________________________________________________
-A script that automatically configures your NVIDIA Jetson ready to roll with your Machine Learning projects.
+Automatically configure your __NVIDIA Jetson NANO__ with all your Machine Learning libraries, Python Virtual Enviorments, and system glitch fixes.
+ 
+  
 _____________________________________________________________________________________________
 ## Installation
 Clone the repository

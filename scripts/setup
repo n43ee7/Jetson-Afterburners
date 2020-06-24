@@ -4,6 +4,8 @@
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get dist-upgrade
 
+function system_initialization {
+
 sudo apt-get install git cmake
 sudo apt-get install libatlas-base-dev gfortran
 sudo apt-get install libhdf5-serial-dev hdf5-tools
@@ -26,22 +28,6 @@ echo 'export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH' >> ~/.bashrc
 source ~/.bashrc
 echo '[!] Do not Delete the CMake Folder located at the the home directory'
 
-
-# Installing OpenCV dependencies and install
-sudo apt-get install build-essential pkg-config
-sudo apt-get install libtbb2 libtbb-dev
-sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
-sudo apt-get install libxvidcore-dev libavresample-dev
-sudo apt-get install libtiff-dev libjpeg-dev libpng-dev
-sudo apt-get install python-tk libgtk-3-dev
-sudo apt-get install libcanberra-gtk-module libcanberra-gtk3-module
-
-sudo apt-get install libv4l-dev libdc1394-22-dev
-clear
-echo ===================================================================================================================
-echo                                              [!] Installing OpenCV.
-echo ===================================================================================================================
-sudo ./OpenCVinstall.sh
 
 # pip setup
 wget https://bootstrap.pypa.io/get-pip.py
@@ -119,10 +105,13 @@ pip install matplotlib scikit-learn
 pip install pillow imutils scikit-image
 pip install dlib
 pip install flask jupyter
+}
 
+function install_vscode() {
 
-instal_vscode()
-{
+echo ===================================================================================================================
+echo                                         [!] Installing Visual Studio Code.
+echo ===================================================================================================================
 # Install the rep keys and setup
 wget -O script.deb.sh https://packagecloud.io/install/repositories/headmelted/codebuilds/script.deb.sh
 # sudo chmod +x script.deb.sh
@@ -132,10 +121,14 @@ wget -O vscodeInstall.sh https://code.headmelted.com/installers/apt.sh
 # sudo chmod +x vscodeInstall.sh
 sudo bash vscodeInstall.sh
 # . <( wget -O - https://code.headmelted.com/installers/apt.sh )
+
 }
 
-instal_arduino()
-{
+function install_arduino() {
+
+echo ===================================================================================================================
+echo                                            [!] Installing Arduino IDE.
+echo ===================================================================================================================
 INSTALL_DIR=${HOME}
 # Direct Jetson support starts at 1.8.10
 ARDUINO_VERSION=1.8.10
@@ -149,7 +142,87 @@ sudo ./install.sh
 echo "You can delete the tar file if desired: arduino-"${ARDUINO_VERSION}"-linuxaarch64.tar.xz"
 }
 
-vnc_resolve()
-{
+function opencv_install() {
+
+echo ===================================================================================================================
+echo                                              [!] Installing OpenCV.
+echo ===================================================================================================================
+
+# Installing OpenCV dependencies and install
+
+sudo apt-get install build-essential pkg-config
+sudo apt-get install libtbb2 libtbb-dev
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libxvidcore-dev libavresample-dev
+sudo apt-get install libtiff-dev libjpeg-dev libpng-dev
+sudo apt-get install python-tk libgtk-3-dev
+sudo apt-get install libcanberra-gtk-module libcanberra-gtk3-module
+
+sudo apt-get install libv4l-dev libdc1394-22-dev
+clear
+# Run External script
+sudo ./OpenCVinstall.sh
 
 }
+
+function virtenv_setup {
+
+
+# Virtual Environment Setup
+while:
+do
+echo ===================================================================================================================
+echo                            [!] Please configure your Python3 Virtual environments.
+echo
+echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
+echp .>> Be sure to Initialize the system first to sucessfully configure virtual enviroments.
+echo
+echo ===================================================================================================================
+echo .>>Enter Environment name:
+read varname
+mkvirtualenv $varname -p python3
+done
+
+clear
+echo ===================================================================================================================
+echo                            [!] Python3 Virtual environments have been configured.
+echo ===================================================================================================================
+echo .>> use 'mkvirtualenv' to Create a Python virtual environment
+echo .>> use 'lsvirtualenv' to List virtual environments installed on your system
+echo .>> use 'rmvirtualenv' to Remove a virtual environment
+echo .>> use 'workon' to Activate a Python virtual environment
+echo ===================================================================================================================
+sleep 20
+
+}
+
+case $1 in
+sys_init)
+echo sysinit
+clear
+system_initialization
+;;
+vscode)
+echo vscode
+clear
+install_vscode
+;;
+arduino)
+echo arduino
+clear
+install_arduino
+;;
+opencv)
+echo opencv
+clear
+opencv_install
+;;
+virtenvs)
+echo virtenvs
+clear
+virtenv_setup
+;;
+*)
+echo Invalid parameter, Relaunch with Main .py routine.
+;;
+esac

@@ -5,6 +5,8 @@ from __future__ import print_function
 import os, sys, time
 import pprint
 import subprocess
+from multiprocessing import Pool
+from multiprocessing import cpu_count
 
 
 class terminalColors:
@@ -13,14 +15,7 @@ class terminalColors:
     ENDC = '\033[0m'
 
 
-command = ['bash', '-c', 'source scripts/jetson_variables && env']  # Running another script from Python
-proc = subprocess.Popen(command, stdout=subprocess.PIPE)
 
-for line in proc.stdout:
-    (key, _, value) = line.partition("=")
-    os.environ[key] = value
-
-proc.communicate()
 
 
 print("""\
@@ -51,9 +46,17 @@ print("""\
                   !   ! 
                   ! 
                     """)
-
+time.sleep(2.5)
 
 def sysinfo():
+    command = ['bash', '-c', 'source scripts/jetson_variables && env']  # Running jetson_variables.sh
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        os.environ[key] = value
+
+    proc.communicate()
     print("========================================================================")
     print("                             SYSTEM DETAILS                             ")
     print("========================================================================")
@@ -86,13 +89,116 @@ def sysinfo():
     print("========================================================================")
     print(' CUDA Version: ' + os.environ['JETSON_CUDA'].strip())
     print("========================================================================")
-    input(""" \
-    Press ENTER key to continue system Initialization...
-          """)
-
+    print(" ")
+    print("Press Ctrl + C to continue")
+    while True:
+        try:
+            time.sleep(0.5)
+        except KeyboardInterrupt:
+            break
 
 def rosinstall():
-    command = ['bash', '-c', 'source scripts/ROSinstall && env']  # Running another script from Python
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+    print("[!] Commencing ROS Installation!")
+    time.sleep(2.5)
+    command = ['bash', '-c', 'cd scripts/ && ./ROSinstall.sh']  # Running ROSinstall
+    ros = subprocess.Popen(command, stdin=subprocess.PIPE)
+    ros.communicate()
 
 
+def stressT(mode):
+    if mode == 'A': # CPU Stress test
+        set_time = input("[!] Enter a CPU stress timeout in minutes >> ")
+        while True:
+            if set_time > 0:
+                break
+            print("[!] Invalid timeout. Enter an integer greater than 0.")
+
+        def f(x):
+            timeout = time.time() + 60 * float(set_time)  # X minutes from now
+            while True:
+                if time.time() > timeout or KeyboardInterrupt:
+                    break
+                x*x
+
+        if __name__ == '__main__':
+            processes = cpu_count()
+            print ('[!] utilizing %d cores\n' % processes)
+            pool = Pool(processes)
+            pool.map(f, range(processes))
+  # elif mode == 'B':
+
+def sysint(parram):
+    if parram == 'A': # Main Sys int
+        print("[!] Commencing System Initialization!")
+        time.sleep(2.5)
+        command = ['bash', '-c', 'cd scripts/ && ./setup.sh sysinit']  # Running sys_int
+    elif parram == 'B': # Open CV install
+        print("[!] Commencing Installation of OpenCV")
+        time.sleep(2.5)
+        command = ['bash', '-c', 'cd scripts/ && ./setup.sh opencv']
+    elif parram =='C': # VSCode install
+        command = ['bash', '-c', 'cd scripts/ && ./setup.sh vscode']
+    elif parram == 'D': # Arduino
+        command = ['bash', '-c', 'cd scripts/ && ./setup.sh arduino']
+    elif parram == 'E': # GPU STAT
+        command = ['bash', '-c', 'cd scripts/ && python3 tegra_gpu_stat.py']
+    elif parram == 'F': # Virt envs
+        command = ['bash', '-c', 'cd scripts/ && ./setup.sh virtenvs']
+    setup = subprocess.Popen(command, stdin=subprocess.PIPE)
+    setup.communicate()
+
+
+def partition():
+    print("[!] Commencing System Initialization!")
+    time.sleep(2.5)
+    command = ['bash', '-c', 'cd scripts/&& nvfsresize.sh']  # Running another script from Python
+    part = subprocess.Popen(command, stdin=subprocess.PIPE)
+    part.communicate()
+
+
+while True:
+    try:
+        os.system('clear')
+        print(""" \
+######################################################################################
+          ______ _______ ______ _____  ____  _    _ _____  _   _ ______ _____   _____ 
+    /\   |  ____|__   __|  ____|  __ \|  _ \| |  | |  __ \| \ | |  ____|  __ \ / ____|
+   /  \  | |__     | |  | |__  | |__) | |_) | |  | | |__) |  \| | |__  | |__) | (___  
+  / /\ \ |  __|    | |  |  __| |  _  /|  _ <| |  | |  _  /| . ` |  __| |  _  / \___ \ 
+ / ____ \| |       | |  | |____| | \ \| |_) | |__| | | \ \| |\  | |____| | \ \ ____) |
+/_/    \_\_|       |_|  |______|_|  \_\____/ \____/|_|  \_\_| \_|______|_|  \_\_____/   
+
+                                        nano
+######################################################################################
+1) System Information                      |     (8) Install VSCode
+2) System Initialization                   |     (9) Install Arduino IDE
+3) Partition Resize unallocated SD space   |    (10) System Stress Test (CPU)
+4) Install ROS                             |    (11) System Stress Test (GPU)
+5) Install OpenCV                          |
+6) Display GPU Activity                    |
+7) Setup Virtual environments              |  (100) Exit
+=====================================================================================
+Always Press Ctrl + C if things go wrong!
+=====================================================================================
+""")
+        input("you@Afterburners:~ ")
+        switcher = {
+            100: exit(),
+            1: sysinfo(),
+            2: sysint('A'),
+            3: partition(),
+            4: rosinstall(),
+            10: stressT('A'),
+            11: print("Still in Development..."),
+            5: sysint('B'),
+            6: sysint('E'),
+            8: sysint('C'),
+            9: sysint('D'),
+            7: sysint('F')
+        }
+
+    except KeyboardInterrupt:
+        break
+
+print("[!] Keyboard Interrupt detected, Exiting...")
+exit()

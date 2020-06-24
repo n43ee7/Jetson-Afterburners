@@ -181,21 +181,33 @@ while True:
 Always Press Ctrl + C if things go wrong!
 =====================================================================================
 """)
-        input("you@Afterburners:~ ")
-        switcher = {
-            100: exit(),
-            1: sysinfo(),
-            2: sysint('A'),
-            3: partition(),
-            4: rosinstall(),
-            10: stressT('A'),
-            11: print("Still in Development..."),
-            5: sysint('B'),
-            6: sysint('E'),
-            8: sysint('C'),
-            9: sysint('D'),
-            7: sysint('F')
-        }
+        fcmp = input("you@Afterburners:~ ")
+        if fcmp == 100:             # Would have killed the Devs to add case but who i am to complain
+            exit()
+        elif fcmp == 1:
+            sysinfo()
+        elif fcmp == 2:
+            sysint('A')
+        elif fcmp == 3:
+            partition()
+        elif fcmp == 4:
+            rosinstall()
+        elif fcmp == 10:
+            stressT('A')
+        elif fcmp == 11:
+            print("Still in Development..."),
+        elif fcmp == 5:
+            sysint('B')
+        elif fcmp == 6:
+            sysint('E')
+        elif fcmp == 8:
+            sysint('C')
+        elif fcmp == 9:
+            sysint('D')
+        elif fcmp == 7:
+            sysint('F')
+        else:
+            print("[!] Incorect entry!")
 
     except KeyboardInterrupt:
         break

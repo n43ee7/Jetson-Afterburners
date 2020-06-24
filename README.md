@@ -3,9 +3,10 @@ ________________________________________________________________________________
 Automatically configure your __NVIDIA Jetson NANO__ with all your Machine Learning libraries and vital packages, Python Virtual Enviorments, system necessities and other system modifications like resizing unallocated SD partitions. 
 
 _Basically a handy toolkit for devs that don't wanna spend an entire day fidling around the sys and concentrate on what really matters_
- 
-Currently functional on versions <= [JetPack 4.2.2](https://developer.nvidia.com/embedded/jetpack)   
-
+_____________________________________________________________________________________________
+## Prerequisites
+JetPack version <= [JetPack 4.2.2](https://developer.nvidia.com/embedded/jetpack)   
+Python 3  ''' apt-get install python3```
 _____________________________________________________________________________________________
 ## Installation
 Clone the repository

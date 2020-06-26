@@ -15,6 +15,9 @@ Clone the repository
 Shift to the directory
 ``` cd Jetson-Afterburners ```
 
+Allow executable permissions (If needed)
+``` chmod +x Afterburner.py ```
+
 Run the script for the first boot
 ``` python3 Afterburner.py ```
 

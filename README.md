@@ -6,16 +6,20 @@ _Basically a handy toolkit for devs that don't wanna spend an entire day fidling
 _____________________________________________________________________________________________
 ## Prerequisites
 JetPack version <= [JetPack 4.2.2](https://developer.nvidia.com/embedded/jetpack)   
-Python 3  ''' apt-get install python3```
+Python 3  ``` apt-get install python3 ```
 _____________________________________________________________________________________________
 ## Installation
 Clone the repository
 ``` git clone https://github.com/n43ee7/Jetson-Afterburners.git ```
 
+Shift to the directory
+``` cd Jetson-Afterburners ```
+
 Run the script for the first boot
 ``` python3 Afterburner.py ```
 
-Use the interactive menu to navigate throught what you need to initialize.
+Use the interactive menu to navigate throught available options.
+Be sure to Run System Initialize atleast once to get all necessary packages for other features.
 
 _______________________________________________________________________________________________
 Note: 

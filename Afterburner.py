@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+# Mandatory to run on Python 2
+
 
 from __future__ import print_function
 import os, sys, time
@@ -15,8 +17,15 @@ class terminalColors:
     ENDC = '\033[0m'
 
 
+if os.getuid() != 0:        # Sudo requirement
+    print("[!] Be sure to have root access when running this script")
+    exit()
 
 
+scriptperm = ['bash', '-c', 'cd scripts/ && chmod +x setup && chmod +x ROSinstall && chmod +x OpenCVinstall && chmod +x nvfsresize']
+setup = subprocess.Popen(scriptperm, stdin=subprocess.PIPE)
+setup.communicate()
+print("[!] Script Permissions adjusted in directory '/scripts' ")
 
 print("""\
 
@@ -102,7 +111,7 @@ def sysinfo():
 def rosinstall():
     print("[!] Commencing ROS Installation!")
     time.sleep(2.5)
-    command = ['bash', '-c', 'cd scripts/ && ./ROSinstall.sh']  # Running ROSinstall
+    command = ['bash', '-c', 'cd scripts/ && sudo ./ROSinstall.sh']  # Running ROSinstall
     ros = subprocess.Popen(command, stdin=subprocess.PIPE)
     ros.communicate()
 
@@ -133,19 +142,29 @@ def sysint(parram):
     if parram == 'A': # Main Sys int
         print("[!] Commencing System Initialization!")
         time.sleep(2.5)
-        command = ['bash', '-c', 'cd scripts/ && ./setup sysinit']  # Running sys_int
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup sysinit']  # Running sys_int
+
     elif parram == 'B': # Open CV install
         print("[!] Commencing Installation of OpenCV")
         time.sleep(2.5)
-        command = ['bash', '-c', 'cd scripts/ && ./setup opencv']
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup opencv']
+
     elif parram =='C': # VSCode install
-        command = ['bash', '-c', 'cd scripts/ && ./setup vscode']
+        print("[!] Commencing Installation of Visual Studio Code IDE")
+        time.sleep(2.5)
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup vscode']
+
     elif parram == 'D': # Arduino
-        command = ['bash', '-c', 'cd scripts/ && ./setup arduino']
+        print("[!] Commencing Installation of Arduino IDE and Libraries")
+        time.sleep(2.5)
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup arduino']
+
     elif parram == 'E': # GPU STAT
-        command = ['bash', '-c', 'cd scripts/ && python3 tegra_gpu_stat.py']
+        command = ['bash', '-c', 'cd scripts/ && sudo python3 tegra_gpu_stat.py']
+
     elif parram == 'F': # Virt envs
-        command = ['bash', '-c', 'cd scripts/ && ./setup virtenvs']
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup virtenvs']
+
     setup = subprocess.Popen(command, stdin=subprocess.PIPE)
     setup.communicate()
 
@@ -153,7 +172,7 @@ def sysint(parram):
 def partition():
     print("[!] Commencing System Initialization!")
     time.sleep(2.5)
-    command = ['bash', '-c', 'cd scripts/&& nvfsresize.sh']  # Running another script from Python
+    command = ['bash', '-c', 'cd scripts/&& sudo nvfsresize.sh']  # Running another script from Python
     part = subprocess.Popen(command, stdin=subprocess.PIPE)
     part.communicate()
 
@@ -185,7 +204,7 @@ while True:
     try:
         fcmp = input("you@Afterburners:~  ")
 
-        if fcmp == "100":             # Would have killed the Devs to add case but who i am to complain
+        if fcmp == 100:
             break
         elif fcmp == 1:
             sysinfo()

@@ -31,10 +31,10 @@ echo [!] Do not Delete the CMake Folder located at the the home directory
 
 # pip setup
 wget https://bootstrap.pypa.io/get-pip.py
-sudo python3 get-pip.py
+python3 get-pip.py
 rm get-pip.py
-sudo pip install virtualenv virtualenvwrapper
-sudo pip install
+pip install virtualenv virtualenvwrapper
+pip install
 
 # Virtual Environment Setup
 echo '# virtualenv and virtualenvwrapper' >> ~/.bashrc
@@ -79,7 +79,7 @@ workon $envname
 # Install the Protobuf Compiler
 
 wget https://raw.githubusercontent.com/jkjung-avt/jetson_nano/master/install_protobuf-3.6.1.sh
-sudo chmod +x install_protobuf-3.6.1.sh
+chmod +x install_protobuf-3.6.1.sh
 ./install_protobuf-3.6.1.sh
 
 workon $envname
@@ -92,7 +92,7 @@ echo ===========================================================================
 echo                     [!] Commencing Installation of Deep Learning Libraries and packages.
 echo ===================================================================================================================
 sleep 5
-sudo pip install numpy cython
+pip install numpy cython
 
 wget https://github.com/scipy/scipy/releases/download/v1.3.3/scipy-1.3.3.tar.gz
 tar -xzvf scipy-1.3.3.tar.gz scipy-1.3.3

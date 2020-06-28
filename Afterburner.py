@@ -181,36 +181,37 @@ Always Press Ctrl + C if things go wrong!
 while True:
     try:
         fcmp = input("you@Afterburners:~  ")
-        print(fcmp)
+
         if fcmp == "100":             # Would have killed the Devs to add case but who i am to complain
             break
-        elif fcmp == "1":
+        elif fcmp == 1:
             sysinfo()
-        elif fcmp == "2":
+        elif fcmp == 2:
             sysint('A')
-        elif fcmp == "3":
+        elif fcmp == 3:
             partition()
-        elif fcmp == "4":
+        elif fcmp == 4:
             rosinstall()
-        elif fcmp == "10":
+        elif fcmp == 10:
             stressT('A')
-        elif fcmp == "11":
+        elif fcmp == 11:
             print("Still in Development...")
-        elif fcmp == "5":
+        elif fcmp == 5:
             sysint('B')
-        elif fcmp == "6":
+        elif fcmp == 6:
             sysint('E')
-        elif fcmp == "8":
+        elif fcmp == 8:
             sysint('C')
-        elif fcmp == "9":
+        elif fcmp == 9:
             sysint('D')
-        elif fcmp == "7":
+        elif fcmp == 7:
             sysint('F')
         else:
             print(">> [!] Invalid entry. Please re-check you choice.")
     except KeyboardInterrupt:
+        print(" ")
         break
 
 print("[!] Exit Interrupt detected, Exiting...")
-time.sleep(0.6)
+time.sleep(0.8)
 exit()

@@ -172,7 +172,7 @@ def sysint(parram):
 def partition():
     print("[!] Commencing System Initialization!")
     time.sleep(2.5)
-    command = ['bash', '-c', 'cd scripts/&& sudo nvfsresize.sh']  # Running another script from Python
+    command = ['bash', '-c', 'cd scripts/&& sudo nvfsresize']  # Running another script from Python
     part = subprocess.Popen(command, stdin=subprocess.PIPE)
     part.communicate()
 

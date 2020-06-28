@@ -90,11 +90,13 @@ def sysinfo():
     print(' CUDA Version: ' + os.environ['JETSON_CUDA'].strip())
     print("========================================================================")
     print(" ")
-    print("Press Ctrl + C to continue")
+    print(" ")
+    print("Press Ctrl + C to return to menu")
     while True:
         try:
             time.sleep(0.5)
         except KeyboardInterrupt:
+            print(" ")
             break
 
 def rosinstall():
@@ -131,19 +133,19 @@ def sysint(parram):
     if parram == 'A': # Main Sys int
         print("[!] Commencing System Initialization!")
         time.sleep(2.5)
-        command = ['bash', '-c', 'cd scripts/ && ./setup.sh sysinit']  # Running sys_int
+        command = ['bash', '-c', 'cd scripts/ && ./setup sysinit']  # Running sys_int
     elif parram == 'B': # Open CV install
         print("[!] Commencing Installation of OpenCV")
         time.sleep(2.5)
-        command = ['bash', '-c', 'cd scripts/ && ./setup.sh opencv']
+        command = ['bash', '-c', 'cd scripts/ && ./setup opencv']
     elif parram =='C': # VSCode install
-        command = ['bash', '-c', 'cd scripts/ && ./setup.sh vscode']
+        command = ['bash', '-c', 'cd scripts/ && ./setup vscode']
     elif parram == 'D': # Arduino
-        command = ['bash', '-c', 'cd scripts/ && ./setup.sh arduino']
+        command = ['bash', '-c', 'cd scripts/ && ./setup arduino']
     elif parram == 'E': # GPU STAT
         command = ['bash', '-c', 'cd scripts/ && python3 tegra_gpu_stat.py']
     elif parram == 'F': # Virt envs
-        command = ['bash', '-c', 'cd scripts/ && ./setup.sh virtenvs']
+        command = ['bash', '-c', 'cd scripts/ && ./setup virtenvs']
     setup = subprocess.Popen(command, stdin=subprocess.PIPE)
     setup.communicate()
 
@@ -156,6 +158,7 @@ def partition():
     part.communicate()
 
 os.system('clear')
+
 print(""" \
 ######################################################################################
           ______ _______ ______ _____  ____  _    _ _____  _   _ ______ _____   _____ 

@@ -175,16 +175,16 @@ function virtenv_setup {
 # Virtual Environment Setup
 while:
 do
-echo ===================================================================================================================
-echo                            [!] Please configure your Python3 Virtual environments.
-echo
-echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
-echp .>> Be sure to Initialize the system first to sucessfully configure virtual enviroments.
-echo
-echo ===================================================================================================================
-echo .>>Enter Environment name:
-read varname
-mkvirtualenv $varname -p python3
+    echo ===================================================================================================================
+    echo                            [!] Please configure your Python3 Virtual environments.
+    echo
+    echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
+    echp .>> Be sure to Initialize the system first to sucessfully configure virtual enviroments.
+    echo
+    echo ===================================================================================================================
+    echo .>>Enter Environment name:
+    read varname
+    mkvirtualenv $varname -p python3
 done
 
 clear

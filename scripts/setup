@@ -171,16 +171,11 @@ sudo ./OpenCVinstall.sh
 
 function virtenv_setup {
 
-
-# Virtual Environment Setup
-while:
+while :
 do
     echo ===================================================================================================================
     echo                            [!] Please configure your Python3 Virtual environments.
-    echo
     echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
-    echp .>> Be sure to Initialize the system first to sucessfully configure virtual enviroments.
-    echo
     echo ===================================================================================================================
     echo .>>Enter Environment name:
     read varname
@@ -188,6 +183,7 @@ do
 done
 
 clear
+
 echo ===================================================================================================================
 echo                            [!] Python3 Virtual environments have been configured.
 echo ===================================================================================================================
@@ -196,7 +192,9 @@ echo .>> use 'lsvirtualenv' to List virtual environments installed on your syste
 echo .>> use 'rmvirtualenv' to Remove a virtual environment
 echo .>> use 'workon' to Activate a Python virtual environment
 echo ===================================================================================================================
+
 sleep 20
+clear
 
 }
 

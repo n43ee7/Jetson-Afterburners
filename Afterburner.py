@@ -111,7 +111,7 @@ def sysinfo():
 def rosinstall():
     print("[!] Commencing ROS Installation!")
     time.sleep(2.5)
-    command = ['bash', '-c', 'cd scripts/ && sudo ./ROSinstall.sh']  # Running ROSinstall
+    command = ['bash', '-c', 'cd scripts/ && sudo ./ROSinstall']  # Running ROSinstall
     ros = subprocess.Popen(command, stdin=subprocess.PIPE)
     ros.communicate()
 

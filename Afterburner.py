@@ -173,7 +173,7 @@ print(""" \
 4) Install ROS                             |    (11) System Stress Test (GPU)
 5) Install OpenCV                          |
 6) Display GPU Activity                    |
-7) Setup Virtual environments              |  (100) Exit
+7) Setup Virtual environments              |   (100) Exit
 =====================================================================================
 Always Press Ctrl + C if things go wrong!
 =====================================================================================
@@ -181,9 +181,9 @@ Always Press Ctrl + C if things go wrong!
 while True:
     try:
         fcmp = input("you@Afterburners:~  ")
-
+        print(fcmp)
         if fcmp == "100":             # Would have killed the Devs to add case but who i am to complain
-            exit()
+            break
         elif fcmp == "1":
             sysinfo()
         elif fcmp == "2":
@@ -209,8 +209,8 @@ while True:
         else:
             print(">> [!] Invalid entry. Please re-check you choice.")
     except KeyboardInterrupt:
-        print ('KeyboardInterrupt caught')
         break
 
-print("[!] Keyboard Interrupt detected, Exiting...")
+print("[!] Exit Interrupt detected, Exiting...")
+time.sleep(0.6)
 exit()

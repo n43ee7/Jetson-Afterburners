@@ -79,3 +79,4 @@ resize2fs /dev/mmcblk0p1
 
 # Clean up
 cleanup
+echo [!] System Partition Resize Sucessfull. Please reboot your system now.

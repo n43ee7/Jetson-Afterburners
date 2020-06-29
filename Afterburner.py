@@ -17,10 +17,9 @@ class terminalColors:
     ENDC = '\033[0m'
 
 
-if os.getuid() != 0:        # Sudo requirement
+if os.getuid() != 0:  # Sudo requirement
     print("[!] Be sure to have root access when running this script")
     exit()
-
 
 scriptperm = ['bash', '-c', 'cd scripts/ && chmod +x setup && chmod +x ROSinstall && chmod +x OpenCVinstall && chmod +x nvfsresize']
 setup = subprocess.Popen(scriptperm, stdin=subprocess.PIPE)
@@ -57,6 +56,7 @@ print("""\
                     """)
 time.sleep(2.5)
 
+
 def sysinfo():
     command = ['bash', '-c', 'source scripts/jetson_variables && env']  # Running jetson_variables.sh
     proc = subprocess.Popen(command, stdout=subprocess.PIPE)
@@ -69,12 +69,13 @@ def sysinfo():
     print("========================================================================")
     print("                             SYSTEM DETAILS                             ")
     print("========================================================================")
-    print(" NVIDIA Board Name: " + os.environ["JETSON_BOARD"].strip())                                                      # Jetson Model
-    print(' L4T Version: ' + os.environ['JETSON_L4T'].strip() + ' [ JetPack ' + os.environ['JETSON_JETPACK'].strip() + ' ]')# L4T Version
+    print(" NVIDIA Board Name: " + os.environ["JETSON_BOARD"].strip())  # Jetson Model
+    print(' L4T Version: ' + os.environ['JETSON_L4T'].strip() + ' [ JetPack ' + os.environ[
+        'JETSON_JETPACK'].strip() + ' ]')  # L4T Version
     print("========================================================================")
-    print (" UBUNTU version: ")
+    print(" UBUNTU version: ")
 
-    if os.path.exists('/etc/os-release'):                                                                                   # Ubuntu version
+    if os.path.exists('/etc/os-release'):  # Ubuntu version
         with open('/etc/os-release', 'r') as ubuntuVersionFile:
             ubuntuVersionFileText = ubuntuVersionFile.read()
         for line in ubuntuVersionFileText.splitlines():
@@ -86,7 +87,7 @@ def sysinfo():
         print('Directory /etc/os-release has not been detected. Try running with SUDO')
     print("========================================================================")
 
-    if os.path.exists('/proc/version'):                                                                                     # Kernel Release
+    if os.path.exists('/proc/version'):  # Kernel Release
         with open('/proc/version', 'r') as versionFile:
             versionFileText = versionFile.read()
         kernelReleaseArray = versionFileText.split(' ')
@@ -108,6 +109,7 @@ def sysinfo():
             print(" ")
             break
 
+
 def rosinstall():
     print("[!] Commencing ROS Installation!")
     time.sleep(2.5)
@@ -117,52 +119,41 @@ def rosinstall():
 
 
 def stressT(mode):
-    if mode == 'A': # CPU Stress test
-        set_time = input("[!] Enter a CPU stress timeout in minutes >> ")
-        while True:
-            if set_time > 0:
-                break
-            print("[!] Invalid timeout. Enter an integer greater than 0.")
+    if mode == 'A':  # CPU Stress test
+        set_time = input("[!] Enter a CPU stress timeout in seconds >> ")
+        print ("[!] Commencing stress test on CPU with Load ")
+        stressex = ['bash', '-c', 'stress-ng --cpu 4 --io 2 --timeout ' + set_time + 's --metrics']
+        stress = subprocess.Popen(stressex, stdin=subprocess.PIPE)
+        stress.communicate()
 
-        def f(x):
-            timeout = time.time() + 60 * float(set_time)  # X minutes from now
-            while True:
-                if time.time() > timeout or KeyboardInterrupt:
-                    break
-                x*x
+    # elif mode == 'B':
 
-        if __name__ == '__main__':
-            processes = cpu_count()
-            print ('[!] utilizing %d cores\n' % processes)
-            pool = Pool(processes)
-            pool.map(f, range(processes))
-  # elif mode == 'B':
 
 def sysint(parram):
-    if parram == 'A': # Main Sys int
+    if parram == 'A':  # Main Sys int
         print("[!] Commencing System Initialization!")
         time.sleep(2.5)
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup sysinit']  # Running sys_int
 
-    elif parram == 'B': # Open CV install
+    elif parram == 'B':  # Open CV install
         print("[!] Commencing Installation of OpenCV")
         time.sleep(2.5)
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup opencv']
 
-    elif parram =='C': # VSCode install
+    elif parram == 'C':  # VSCode install
         print("[!] Commencing Installation of Visual Studio Code IDE")
         time.sleep(2.5)
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup vscode']
 
-    elif parram == 'D': # Arduino
+    elif parram == 'D':  # Arduino
         print("[!] Commencing Installation of Arduino IDE and Libraries")
         time.sleep(2.5)
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup arduino']
 
-    elif parram == 'E': # GPU STAT
+    elif parram == 'E':  # GPU STAT
         command = ['bash', '-c', 'cd scripts/ && sudo python3 tegra_gpu_stat.py']
 
-    elif parram == 'F': # Virt envs
+    elif parram == 'F':  # Virt envs
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup virtenvs']
 
     setup = subprocess.Popen(command, stdin=subprocess.PIPE)
@@ -176,9 +167,9 @@ def partition():
     part = subprocess.Popen(command, stdin=subprocess.PIPE)
     part.communicate()
 
-os.system('clear')
 
-print(""" \
+def dispmen():
+    print(""" \
 ######################################################################################
           ______ _______ ______ _____  ____  _    _ _____  _   _ ______ _____   _____ 
     /\   |  ____|__   __|  ____|  __ \|  _ \| |  | |  __ \| \ | |  ____|  __ \ / ____|
@@ -200,6 +191,10 @@ print(""" \
 Always Press Ctrl + C if things go wrong!
 =====================================================================================
 """)
+
+
+os.system('clear')
+dispmen()
 while True:
     try:
         fcmp = input("you@Afterburners:~  ")
@@ -208,26 +203,34 @@ while True:
             break
         elif fcmp == 1:
             sysinfo()
+            dispmen()
         elif fcmp == 2:
             sysint('A')
         elif fcmp == 3:
             partition()
         elif fcmp == 4:
             rosinstall()
+            dispmen()
         elif fcmp == 10:
             stressT('A')
+            dispmen()
         elif fcmp == 11:
             print("Still in Development...")
         elif fcmp == 5:
             sysint('B')
+            dispmen()
         elif fcmp == 6:
             sysint('E')
+            dispmen()
         elif fcmp == 8:
             sysint('C')
+            dispmen()
         elif fcmp == 9:
             sysint('D')
+            dispmen()
         elif fcmp == 7:
             sysint('F')
+            dispmen()
         else:
             print(">> [!] Invalid entry. Please re-check you choice.")
     except KeyboardInterrupt:

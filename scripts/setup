@@ -292,7 +292,6 @@ pip install lxml progressbar2
 
 
 case $1 in
-clean
 sysinit)
 clear
 system_initialization

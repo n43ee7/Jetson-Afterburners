@@ -112,7 +112,8 @@ tar xpvf cmake-3.13.0.tar.gz cmake-3.13.0/
 cd cmake-3.13.0/
 ./bootstrap --system-curl
 make -j4
-echo 'export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH' >> ~/.bashrc
+#Check the export dir
+echo export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH >> ~/.bashrc
 source ~/.bashrc
 echo [!] Do not Delete the CMake Folder located at the the home directory
 
@@ -125,10 +126,10 @@ pip install virtualenv virtualenvwrapper
 pip install
 
 # Virtual Environment Setup
-echo '# virtualenv and virtualenvwrapper' >> ~/.bashrc
-echo 'export WORKON_HOME=$HOME/.virtualenvs' >> ~/.bashrc
-echo 'export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3' >> ~/.bashrc
-echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bashrc
+echo # virtualenv and virtualenvwrapper >> ~/.bashrc
+echo export WORKON_HOME=$HOME/.virtualenvs >> ~/.bashrc
+echo export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3 >> ~/.bashrc
+echo source /usr/local/bin/virtualenvwrapper.sh >> ~/.bashrc
 source ~/.bashrc
 clear
 
@@ -190,8 +191,8 @@ python setup.py install
 
 sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran -y
 sudo pip install -U pip testresources setuptools
-sudo pip3 install -U future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
-sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
+sudo pip install -U future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+sudo pip install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
 pip install keras
 
 pip install matplotlib scikit-learn

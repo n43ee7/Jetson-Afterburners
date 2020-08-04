@@ -4,12 +4,38 @@
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get dist-upgrade
 
+function cleanup { # Cleanups
+sudo apt-get autoremove --purge
+sudo apt-get autoremove
 
-function install_vscode() {
+}
+function cmake_install {
+echo ===================================================================================================================
+echo                                            [!] Installing CMake.
+echo ===================================================================================================================
+sleep 5
+# CMAKE Installation
+cd /usr/
+mkdir cmake
+wget http://www.cmake.org/files/v3.13/cmake-3.13.0.tar.gz
+tar xpvf cmake-3.13.0.tar.gz cmake-3.13.0/
+cd cmake-3.13.0/
+./bootstrap --system-curl
+make -j4
+#Check the export dir
+echo export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH >> ~/.bashrc
+source ~/.bashrc
+echo ''
+echo '*****\ [!] Do not Delete the CMake Folder located at the the home directory /*****'
+sleep 20
+}
+
+function install_vscode {
 
 echo ===================================================================================================================
 echo                                         [!] Installing Visual Studio Code.
 echo ===================================================================================================================
+sleep 5
 # Install the rep keys and setup
 wget -O script.deb.sh https://packagecloud.io/install/repositories/headmelted/codebuilds/script.deb.sh
 # sudo chmod +x script.deb.sh
@@ -26,11 +52,12 @@ sudo apt-get autoclean
 }
 
 
-function install_arduino() {
+function install_arduino {
 
 echo ===================================================================================================================
 echo                                            [!] Installing Arduino IDE.
 echo ===================================================================================================================
+sleep 5
 INSTALL_DIR=${HOME}
 # Direct Jetson support starts at 1.8.10
 ARDUINO_VERSION=1.8.10
@@ -42,6 +69,7 @@ cd $INSTALL_DIR/arduino-${ARDUINO_VERSION}
 sudo ./install.sh
 ./arduino-linux-setup.sh "$USER"
 echo "You can delete the tar file if desired: arduino-"${ARDUINO_VERSION}"-linuxaarch64.tar.xz"
+sleep 5
 }
 
 
@@ -50,15 +78,36 @@ function opencv_install() {
 echo ===================================================================================================================
 echo                                              [!] Installing OpenCV.
 echo ===================================================================================================================
+sleep 5
 
-# Installing OpenCV dependencies and install
+echo '*****\ Installing OpenCV dependencies and install /*****'
 
-sudo apt-get install build-essential pkg-config libtbb2 libtbb-dev libavcodec-dev libavformat-dev libswscale-dev -y
-sudo apt-get install libxvidcore-dev libavresample-dev libtiff-dev libjpeg-dev libpng-dev python-tk libgtk-3-dev -y
-sudo apt-get install libcanberra-gtk-module libcanberra-gtk3-module -y
+sudo apt-get install -y \
+cmake \
+build-essential \
+pkg-config \
+libtbb2 \
+libtbb-dev \
+libavcodec-dev \
+libavformat-dev \
+libswscale-dev \
+libxvidcore-dev \
+libavresample-dev \
+libtiff-dev \
+libjpeg-dev \
+libpng-dev \
+python-tk \
+libgtk-3-dev \
+libcanberra-gtk-module \
+libcanberra-gtk3-module \
+libv4l-dev \
+libdc1394-22-dev
 
-sudo apt-get install libv4l-dev libdc1394-22-dev -y
 clear
+echo '*****\ [!] Installing CMake /*****'
+sleep 5
+cmake_install
+
 # Run External script
 sudo ./OpenCVinstall.sh
 
@@ -76,6 +125,7 @@ echo .>> If you wish to cancel entry [ hit CTRL+C to stop]
 echo ===================================================================================================================
 echo .>>Enter Environment name:
 read varname
+sleep 5
 mkvirtualenv $varname -p python3
 
 clear
@@ -88,42 +138,61 @@ echo .>> use 'lsvirtualenv' to List virtual environments installed on your syste
 echo .>> use 'rmvirtualenv' to Remove a virtual environment
 echo .>> use 'workon' to Activate a Python virtual environment
 echo ===================================================================================================================
-
 sleep 20
+
 clear
 
 }
 
 
 function system_initialization {
-
-apt-get install stress -y
-sudo apt-get install git cmake -y
-sudo apt-get install libatlas-base-dev gfortran libhdf5-serial-dev hdf5-tools python3-dev nano locate htop -y
-sudo apt-get install libfreetype6-dev python3-setuptools protobuf-compiler libprotobuf-dev openssl libssl-dev libcurl4-openssl-dev cython3 -y
-
-sudo apt-get install libxml2-dev libxslt1-dev -y
-
-# CMAKE Installation
-cd /usr/
-mkdir cmake
-wget http://www.cmake.org/files/v3.13/cmake-3.13.0.tar.gz
-tar xpvf cmake-3.13.0.tar.gz cmake-3.13.0/
-cd cmake-3.13.0/
-./bootstrap --system-curl
-make -j4
-#Check the export dir
-echo export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH >> ~/.bashrc
-source ~/.bashrc
-echo [!] Do not Delete the CMake Folder located at the the home directory
-
+echo ===================================================================================================================
+echo                            [!] Starting fresh install initialization.
+echo ===================================================================================================================
+sleep 5
+echo '*****\ [!] Cleaning up redundant packages. /*****'
+sleep 2
+sudo apt-get purge libreoffice*
+echo '*****\ [!] Installing basic packages /*****'
+sleep 2
+sudo apt-get clean
+apt-get install  -y \
+stress \
+git \
+cmake \
+libatlas-base-dev \
+gfortran \
+libhdf5-serial-dev \
+hdf5-tools \
+python3-dev \
+nano \
+locate \
+htop \
+libfreetype6-dev \
+python3-setuptools \
+protobuf-compiler \
+libprotobuf-dev \
+openssl \
+libssl-dev \
+libcurl4-openssl-dev \
+cython3 \
+libxml2-dev \
+libxslt1-dev \
+libhdf5-serial-dev \
+hdf5-tools \
+libhdf5-dev \
+zlib1g-dev \
+zip \
+libjpeg8-dev \
+liblapack-dev \
+libblas-dev \
+gfortran \
 
 # pip setup
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 rm get-pip.py
 pip install virtualenv virtualenvwrapper
-pip install
 
 # Virtual Environment Setup
 echo # virtualenv and virtualenvwrapper >> ~/.bashrc
@@ -164,8 +233,30 @@ echo .>> Note: This script will not maintain other environments.
 read envname
 workon $envname
 
-# Install the Protobuf Compiler
+sudo apt-get clean
+sudo apt-get autoclean
 
+}
+
+function mlai {
+echo *****\ [!] Enter the name of your Python Virtual Environment for installation  /*****
+echo ___________________________________________________________________________________________________________________
+echo Existing Virtual Environment, enter null to install on root.
+echo ___________________________________________________________________________________________________________________
+lsvirtualenv
+echo ___________________________________________________________________________________________________________________
+sleep 2
+read envname
+clear
+echo ===================================================================================================================
+echo                     [!] Commencing Installation of Machine Learning Libraries and packages.
+echo ===================================================================================================================
+sleep 5
+
+# Installing Protobuf compiler
+
+echo  *****\ Install the Protobuf Compiler /*****
+sleep 6
 wget https://raw.githubusercontent.com/jkjung-avt/jetson_nano/master/install_protobuf-3.6.1.sh
 chmod +x install_protobuf-3.6.1.sh
 ./install_protobuf-3.6.1.sh
@@ -176,10 +267,7 @@ cp -r ~/src/protobuf-3.6.1/python/ .
 cd python
 python setup.py install --cpp_implementation
 clear
-echo ===================================================================================================================
-echo                     [!] Commencing Installation of Deep Learning Libraries and packages.
-echo ===================================================================================================================
-sleep 5
+
 pip install numpy cython
 
 wget https://github.com/scipy/scipy/releases/download/v1.3.3/scipy-1.3.3.tar.gz
@@ -189,7 +277,6 @@ python setup.py install
 
 # Installing Tensorflow from Nvidia Distro
 
-sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran -y
 sudo pip install -U pip testresources setuptools
 sudo pip install -U future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
 sudo pip install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
@@ -200,40 +287,44 @@ pip install pillow imutils scikit-image
 pip install dlib
 pip install flask jupyter
 
-sudo apt-get clean
-sudo apt-get autoclean
-
 }
 
 
-
 case $1 in
+clean
 sysinit)
-echo sysinit
 clear
 system_initialization
 ;;
 vscode)
-echo vscode
 clear
 install_vscode
 ;;
 arduino)
-echo arduino
 clear
 install_arduino
 ;;
 opencv)
-echo opencv
 clear
 opencv_install
 ;;
 virtenvs)
-echo virtenvs
 clear
 virtenv_setup
 ;;
+cmake)
+clear
+cmake_install
+;;
+mlai)
+clear
+mlai
+;;
+clean)
+clear
+cleanup
+;;
 *)
-echo Invalid parameter, Relaunch with Main .py routine.
+echo Invalid input parameter, Access from 'Afterburners.py' file.
 ;;
 esac

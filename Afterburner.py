@@ -156,6 +156,14 @@ def sysint(parram):
     elif parram == 'F':  # Virt envs
         command = ['bash', '-c', 'cd scripts/ && sudo ./setup virtenvs']
 
+    elif parram == 'G':  # cmake
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup cmake']
+
+    elif parram == 'H':  # Tensorflow
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup mlai']
+    elif parram == 'I':  # Tensorflow
+        command = ['bash', '-c', 'cd scripts/ && sudo ./setup clean']
+
     setup = subprocess.Popen(command, stdin=subprocess.PIPE)
     setup.communicate()
 
@@ -180,13 +188,14 @@ def dispmen():
 
                                         nano
 ######################################################################################
-1) System Information                      |     (8) Install VSCode
-2) System Initialization                   |     (9) Install Arduino IDE
-3) Partition Resize unallocated SD space   |    (10) System Stress Test (CPU)
-4) Install ROS                             |    (11) System Stress Test (GPU)
-5) Install OpenCV                          |
-6) Display GPU Activity                    |
-7) Setup Virtual environments              |   (100) Exit
+1) System Information                      |     (9) Install VSCode
+2) System Initialization                   |     (10) Install Arduino IDE
+3) Partition Resize unallocated SD space   |     (11) Install CMake
+4) Install ROS                             |     (12) Install Tensorflow
+5) Install OpenCV                          |     (13) System Stress Test (GPU)
+6) Display GPU Activity                    |     (14) System Stress Test (CPU) 
+7) Setup Virtual environments              |   
+8) Cleanup Redundant Files                 |     (100) Exit
 =====================================================================================
 Always Press Ctrl + C if things go wrong!
 =====================================================================================
@@ -211,25 +220,35 @@ while True:
         elif fcmp == 4:
             rosinstall()
             dispmen()
-        elif fcmp == 10:
+        elif fcmp == 14:    # Stresstest CPU
             stressT('A')
             dispmen()
-        elif fcmp == 11:
+        elif fcmp == 13:    # Stresstest GPU
             print("Still in Development...")
+            dispmen()
         elif fcmp == 5:
             sysint('B')
             dispmen()
         elif fcmp == 6:
             sysint('E')
             dispmen()
-        elif fcmp == 8:
+        elif fcmp == 8:  # Cleanup
+            sysint('I')
+            dispmen()
+        elif fcmp == 9: # VSC
             sysint('C')
             dispmen()
-        elif fcmp == 9:
+        elif fcmp == 10: # Arduino
             sysint('D')
             dispmen()
         elif fcmp == 7:
             sysint('F')
+            dispmen()
+        elif fcmp == 11:
+            sysint('G')
+            dispmen()
+        elif fcmp == 12:
+            sysint('H')
             dispmen()
         else:
             print(">> [!] Invalid entry. Please re-check you choice.")

@@ -105,6 +105,8 @@ sudo apt-get install libfreetype6-dev python3-setuptools protobuf-compiler libpr
 sudo apt-get install libxml2-dev libxslt1-dev -y
 
 # CMAKE Installation
+cd /usr/
+mkdir cmake
 wget http://www.cmake.org/files/v3.13/cmake-3.13.0.tar.gz
 tar xpvf cmake-3.13.0.tar.gz cmake-3.13.0/
 cd cmake-3.13.0/

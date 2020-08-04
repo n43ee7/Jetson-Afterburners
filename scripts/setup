@@ -286,6 +286,7 @@ pip install matplotlib scikit-learn
 pip install pillow imutils scikit-image
 pip install dlib
 pip install flask jupyter
+pip install lxml progressbar2
 
 }
 

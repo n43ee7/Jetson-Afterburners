@@ -5,8 +5,8 @@ sudo apt-get update && sudo apt-get upgrade
 sudo apt-get dist-upgrade
 
 function cleanup { # Cleanups
-sudo apt-get autoremove --purge
-sudo apt-get autoremove
+sudo apt-get autoremove --purge -y
+sudo apt-get autoremove -y
 
 }
 function cmake_install {
